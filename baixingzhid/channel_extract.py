@@ -1,49 +1,149 @@
 from bs4 import BeautifulSoup
 import requests
-import time
-import pymongo
 
-client = pymongo.MongoClient('localhost',27017) # 激活
-# 创建库
-cheshi = client['cheshi']
-url_list = cheshi['url_list']
-item_info = cheshi['item_info']
+# 主页所有分类的链接
+start_url = 'http://zhidao.baixing.com/'
+url_host = 'http://zhidao.baixing.com'  # 网页头部分
 
-url_host = 'http://zhidao.baixing.com'
-
-# spider 1
-# 获取各类里的所有链接    http://zhidao.baixing.com/page-23-1.html
-def get_links_from(channel,pages):  # channel 是类的html   pages 是当前类的页数
-    # {http://zhidao.baixing.com/page-23}-{1}.html   内科第1页
-    list_view = '{}-{}.html'.format(channel,str(pages))
-    wb_data = requests.get(list_view)
-    time.sleep(3)   # 延迟时间
+def get_channel_urls(url):
+    wb_data = requests.get(start_url)
     soup = BeautifulSoup(wb_data.text,'lxml')
-    if soup.find('footer','dwqa-footer-meta'):    # 判断当前页有无信息
-        for link in soup.select('a.dwqa-title'):
-            url = url_host + link.get('href')
-            url_list.insert_one({'url':url})
-            print(url)
-    else:
-        pass
-        # Nothing !
+    links = soup.select('ul.sub-menu > li > a')
+    #print(links)
+    #http://zhidao.baixing.com/cat85.html
+    #http://zhidao.baixing.com/cat86.html
 
-# spider 2
-# 获取各页里的信息
-def get_item_info(url):
-        wb_data = requests.get(url)
-        soup = BeautifulSoup(wb_data.text,'lxml')
-        titles = soup.title.text                                                            # 标题
-        datas = soup.select('div.dwqa-question > header > div > span.dwqa-date')[0].text    # 提问时间
-        #Answer_times = soup.select('header div span.dwqa-date a')  # 未被采用回答时间
-        if soup.find('div','acceptAnswer'):                     # 回答是否被采用
-            best_times = soup.select('div.acceptAnswer div span:nth-of-type(2)')[0].text    # 采用回答时间
-        else:
-            best_times = None
-        print(titles,datas,best_times)
+    for link in links:
+        page_url = url_host + link.get('href')
+        print(page_url)
 
-        item_info.insert_one({'titele':titles,'datas':datas,'best_time':best_times})
-
-
-#get_links_from('http://zhidao.baixing.com/page-23',1)
-#get_item_info('http://zhidao.baixing.com/question/297863.html')
+#get_channel_urls(start_url)
+# 把 cat替换成 paga-
+channel_list = '''
+http://zhidao.baixing.com/paga-85.html
+http://zhidao.baixing.com/paga-86.html
+http://zhidao.baixing.com/paga-87.html
+http://zhidao.baixing.com/paga-88.html
+http://zhidao.baixing.com/paga-89.html
+http://zhidao.baixing.com/paga-90.html
+http://zhidao.baixing.com/paga-91.html
+http://zhidao.baixing.com/paga-92.html
+http://zhidao.baixing.com/paga-93.html
+http://zhidao.baixing.com/paga-94.html
+http://zhidao.baixing.com/paga-95.html
+http://zhidao.baixing.com/paga-96.html
+http://zhidao.baixing.com/paga-97.html
+http://zhidao.baixing.com/paga-98.html
+http://zhidao.baixing.com/paga-99.html
+http://zhidao.baixing.com/paga-23.html
+http://zhidao.baixing.com/paga-24.html
+http://zhidao.baixing.com/paga-25.html
+http://zhidao.baixing.com/paga-26.html
+http://zhidao.baixing.com/paga-27.html
+http://zhidao.baixing.com/paga-28.html
+http://zhidao.baixing.com/paga-29.html
+http://zhidao.baixing.com/paga-30.html
+http://zhidao.baixing.com/paga-31.html
+http://zhidao.baixing.com/paga-32.html
+http://zhidao.baixing.com/paga-33.html
+http://zhidao.baixing.com/paga-34.html
+http://zhidao.baixing.com/paga-35.html
+http://zhidao.baixing.com/paga-36.html
+http://zhidao.baixing.com/paga-37.html
+http://zhidao.baixing.com/paga-100.html
+http://zhidao.baixing.com/paga-101.html
+http://zhidao.baixing.com/paga-102.html
+http://zhidao.baixing.com/paga-103.html
+http://zhidao.baixing.com/paga-104.html
+http://zhidao.baixing.com/paga-105.html
+http://zhidao.baixing.com/paga-106.html
+http://zhidao.baixing.com/paga-107.html
+http://zhidao.baixing.com/paga-108.html
+http://zhidao.baixing.com/paga-109.html
+http://zhidao.baixing.com/paga-110.html
+http://zhidao.baixing.com/paga-111.html
+http://zhidao.baixing.com/paga-112.html
+http://zhidao.baixing.com/paga-55.html
+http://zhidao.baixing.com/paga-56.html
+http://zhidao.baixing.com/paga-57.html
+http://zhidao.baixing.com/paga-58.html
+http://zhidao.baixing.com/paga-59.html
+http://zhidao.baixing.com/paga-60.html
+http://zhidao.baixing.com/paga-61.html
+http://zhidao.baixing.com/paga-62.html
+http://zhidao.baixing.com/paga-63.html
+http://zhidao.baixing.com/paga-64.html
+http://zhidao.baixing.com/paga-65.html
+http://zhidao.baixing.com/paga-66.html
+http://zhidao.baixing.com/paga-67.html
+http://zhidao.baixing.com/paga-68.html
+http://zhidao.baixing.com/paga-69.html
+http://zhidao.baixing.com/paga-40.html
+http://zhidao.baixing.com/paga-41.html
+http://zhidao.baixing.com/paga-42.html
+http://zhidao.baixing.com/paga-43.html
+http://zhidao.baixing.com/paga-44.html
+http://zhidao.baixing.com/paga-45.html
+http://zhidao.baixing.com/paga-46.html
+http://zhidao.baixing.com/paga-47.html
+http://zhidao.baixing.com/paga-48.html
+http://zhidao.baixing.com/paga-49.html
+http://zhidao.baixing.com/paga-50.html
+http://zhidao.baixing.com/paga-51.html
+http://zhidao.baixing.com/paga-52.html
+http://zhidao.baixing.com/paga-53.html
+http://zhidao.baixing.com/paga-54.html
+http://zhidao.baixing.com/paga-120.html
+http://zhidao.baixing.com/paga-121.html
+http://zhidao.baixing.com/paga-122.html
+http://zhidao.baixing.com/paga-123.html
+http://zhidao.baixing.com/paga-124.html
+http://zhidao.baixing.com/paga-125.html
+http://zhidao.baixing.com/paga-126.html
+http://zhidao.baixing.com/paga-127.html
+http://zhidao.baixing.com/paga-128.html
+http://zhidao.baixing.com/paga-129.html
+http://zhidao.baixing.com/paga-130.html
+http://zhidao.baixing.com/paga-131.html
+http://zhidao.baixing.com/paga-132.html
+http://zhidao.baixing.com/paga-133.html
+http://zhidao.baixing.com/paga-134.html
+http://zhidao.baixing.com/paga-135.html
+http://zhidao.baixing.com/paga-136.html
+http://zhidao.baixing.com/paga-137.html
+http://zhidao.baixing.com/paga-138.html
+http://zhidao.baixing.com/paga-70.html
+http://zhidao.baixing.com/paga-71.html
+http://zhidao.baixing.com/paga-72.html
+http://zhidao.baixing.com/paga-73.html
+http://zhidao.baixing.com/paga-74.html
+http://zhidao.baixing.com/paga-75.html
+http://zhidao.baixing.com/paga-76.html
+http://zhidao.baixing.com/paga-77.html
+http://zhidao.baixing.com/paga-78.html
+http://zhidao.baixing.com/paga-79.html
+http://zhidao.baixing.com/paga-80.html
+http://zhidao.baixing.com/paga-81.html
+http://zhidao.baixing.com/paga-82.html
+http://zhidao.baixing.com/paga-83.html
+http://zhidao.baixing.com/paga-84.html
+http://zhidao.baixing.com/paga-38.html
+http://zhidao.baixing.com/paga-39.html
+http://zhidao.baixing.com/paga-13.html
+http://zhidao.baixing.com/paga-14.html
+http://zhidao.baixing.com/paga-15.html
+http://zhidao.baixing.com/paga-16.html
+http://zhidao.baixing.com/paga-17.html
+http://zhidao.baixing.com/paga-18.html
+http://zhidao.baixing.com/paga-19.html
+http://zhidao.baixing.com/paga-20.html
+http://zhidao.baixing.com/paga-21.html
+http://zhidao.baixing.com/paga-22.html
+http://zhidao.baixing.com/paga-113.html
+http://zhidao.baixing.com/paga-114.html
+http://zhidao.baixing.com/paga-115.html
+http://zhidao.baixing.com/paga-116.html
+http://zhidao.baixing.com/paga-117.html
+http://zhidao.baixing.com/paga-118.html
+http://zhidao.baixing.com/paga-119.html
+'''
