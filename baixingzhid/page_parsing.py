@@ -45,5 +45,29 @@ def get_item_info(url):
         item_info.insert_one({'titele':titles,'datas':datas,'best_time':best_times})
 
 
-#get_links_from('http://zhidao.baixing.com/page-23',2)
-#get_item_info('http://zhidao.baixing.com/question/297863.html')
+# get_links_from('http://zhidao.baixing.com/page-23',2)
+'''
+http://zhidao.baixing.com/question/302413.html
+http://zhidao.baixing.com/question/298661.html
+http://zhidao.baixing.com/question/297614.html
+http://zhidao.baixing.com/question/297435.html
+http://zhidao.baixing.com/question/297861.html
+http://zhidao.baixing.com/question/297611.html
+http://zhidao.baixing.com/question/297863.html
+http://zhidao.baixing.com/question/297085.html
+http://zhidao.baixing.com/question/296720.html
+http://zhidao.baixing.com/question/296353.html
+http://zhidao.baixing.com/question/296536.html
+http://zhidao.baixing.com/question/295791.html
+http://zhidao.baixing.com/question/295604.html
+http://zhidao.baixing.com/question/295210.html
+http://zhidao.baixing.com/question/295009.html
+http://zhidao.baixing.com/question/294210.html
+http://zhidao.baixing.com/question/294807.html
+http://zhidao.baixing.com/question/293593.html
+http://zhidao.baixing.com/question/293386.html
+http://zhidao.baixing.com/question/293589.html
+'''
+
+# get_item_info('http://zhidao.baixing.com/question/297863.html')
+# 郴州市公安新警培训什么时候进行-百姓知道 提问于 2017-10-09 13:29:15 2017-10-09 14:06:32
