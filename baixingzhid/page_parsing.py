@@ -6,17 +6,15 @@ import pymongo
 client = pymongo.MongoClient('localhost',27017) # 激活
 # 创建库
 cheshi = client['cheshi']
-url_list = cheshi['url_list3']
-item_info = cheshi['item_info4']
+url_list = cheshi['url_list']
+item_info = cheshi['item_info']
 
 url_host = 'http://zhidao.baixing.com'
 
 # spider 1
-# 获取各类里的所有链接
-# http://zhidao.baixing.com/page-23-1.html
-#   http://zhidao.baixing/page-85-1
+# 获取各类里的所有链接    http://zhidao.baixing.com/page-23-1.html
 def get_links_from(channel,pages):  # channel 是类的html   pages 是当前类的页数
-    # http://zhidao.baixing.com/page-23-1.html   内科第2页
+    # {http://zhidao.baixing.com/page-23}-{1}.html   内科第1页
     list_view = '{}-{}.html'.format(channel,str(pages))
     wb_data = requests.get(list_view)
     time.sleep(3)   # 延迟时间
