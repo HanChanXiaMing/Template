@@ -14,7 +14,7 @@ url_host = 'http://zhidao.baixing.com'
 # spider 1
 # 获取各类里的所有链接    http://zhidao.baixing.com/page-23-1.html
 def get_links_from(channel,pages):  # channel 是类的html   pages 是当前类的页数
-    # {http://zhidao.baixing.com/page-23}-{1}.html   内科第1页
+    # {http://zhidao.baixing.com/page-23}-{2}.html   内科第2页
     list_view = '{}-{}.html'.format(channel,str(pages))
     wb_data = requests.get(list_view)
     time.sleep(3)   # 延迟时间
@@ -45,5 +45,5 @@ def get_item_info(url):
         item_info.insert_one({'titele':titles,'datas':datas,'best_time':best_times})
 
 
-#get_links_from('http://zhidao.baixing.com/page-23',1)
+#get_links_from('http://zhidao.baixing.com/page-23',2)
 #get_item_info('http://zhidao.baixing.com/question/297863.html')
