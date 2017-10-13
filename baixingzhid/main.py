@@ -9,9 +9,10 @@ def get_all_links_from(channel):
 
 # 可运行
 #get_all_links_from('http://zhidao.baixing.com/page-23')
+
+# bug
 #pool = Pool()
 #pool.list(map(get_all_links_from,channel_list.split()))
 
-#def double(x):
-#  print(x)
+#可运行
 list(map(get_all_links_from,channel_list.split()))
