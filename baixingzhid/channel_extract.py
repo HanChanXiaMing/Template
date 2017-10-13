@@ -1,8 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 
-# 主页所有分类的链接
-start_url = 'http://zhidao.baixing.com/'
+start_url = 'http://zhidao.baixing.com/'    # 主页
 url_host = 'http://zhidao.baixing.com'  # 网页头部分
 
 def get_channel_urls(url):
@@ -16,6 +15,8 @@ def get_channel_urls(url):
     for link in links:
         page_url = url_host + link.get('href')
         print(page_url)
+        #http://zhidao.baixing.com/cat23.html
+        #http://zhidao.baixing.com/cat24.html
 
 #get_channel_urls(start_url)
 # 把 cat替换成 paga-
