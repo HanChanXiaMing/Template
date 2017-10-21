@@ -1,0 +1,34 @@
+from bs4 import BeautifulSoup
+import requests
+import time
+import pymongo
+
+client = pymongo.MongoClient('localhost',27017)
+ceshi = client['ceshi']
+url_list = ceshi['url_list1']
+item_info = ceshi['item_info']
+
+# spider 1 分类页面
+def get_links_from(channel,pages,who_sells=0):
+    # http://qd.58.com/shouji/0/pn2/
+    list_view = '{}{}/pn{}/'.format(channel,str(who_sells),str(pages))
+    wb_data = requests.get(list_view)
+    time.sleep(2)
+    soup = BeautifulSoup(wb_data.text,'lxml')
+    for link in soup.select('td.t a'):
+        item_link = link.get('href').split('?')[0]
+        url_list.insert_one({'url':item_link})
+        print(item_link)
+
+# spider 2  详细页面
+def get_litem_info(url):
+    wb_data = requests.get(url)
+    soup = BeautifulSoup(wb_data.text,'lxml')
+    title  = soup.title.text
+    price = soup.select('span.price_now')[0].text
+    area = soup.select('div.palce_li')[0].text
+    #print(title,price,area)
+    item_info.insert_one({'titel':title,'price':price,'area':area})
+
+#get_links_from('http://qd.58.com/iphonesj/',2)
+#get_litem_info('http://zhuanzhuan.58.com/detail/896225164336939015z.shtml')
